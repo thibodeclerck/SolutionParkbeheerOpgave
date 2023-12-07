@@ -18,5 +18,6 @@ namespace ParkDataLayer.Model
         public DateTime EindDatum { get; set; }
         [Required]
         public int Dagen { get; set; }
+
     }
 }
