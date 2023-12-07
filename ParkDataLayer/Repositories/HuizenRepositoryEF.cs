@@ -1,11 +1,21 @@
 ﻿using ParkBusinessLayer.Interfaces;
 using ParkBusinessLayer.Model;
+using ParkDataLayer.Model;
 using System;
 
 namespace ParkDataLayer.Repositories
 {
     public class HuizenRepositoryEF : IHuizenRepository
     {
+        private string connectionString;
+        private ParkBeheerContext ctx;
+
+        public HuizenRepositoryEF(string connectionString)
+        {
+            this.connectionString = connectionString;
+            this.ctx = new ParkBeheerContext(connectionString);
+        }
+
         public Huis GeefHuis(int id)
         {
             throw new NotImplementedException();

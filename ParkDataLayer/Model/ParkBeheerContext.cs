@@ -16,10 +16,27 @@ namespace ParkDataLayer.Model
             this.connectionString = connectionString;
         }
 
+        public DbSet<HuisEF> Huis { get; set; }
+        public DbSet<HuurcontractEF> Huurcontract { get; set; }
+        public DbSet<HuurderEF> Huurder { get; set; }
+        public DbSet<ParkEF> Park { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(connectionString);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<HuisEF>()
+                .HasOne(x => x.Park)
+                .WithMany();
+            modelBuilder.Entity<HuisEF>()
+                .HasMany(x => x.Huurcontracten)
+                .WithOne();
+            //modelBuilder.Entity<HuurderEF>()
+            //    .HasMany(x => x.Huurcontracten)
+            //    .WithOne();
         }
     }
 }

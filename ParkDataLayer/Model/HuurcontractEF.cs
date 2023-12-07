@@ -7,8 +7,21 @@ using System.Threading.Tasks;
 
 namespace ParkDataLayer.Model
 {
-    public class Huurcontract
+    public class HuurcontractEF
     {
+        public HuurcontractEF()
+        {
+        }
+
+        public HuurcontractEF(string id, DateTime startDatum, DateTime eindDatum, int dagen, HuurderEF huurder)
+        {
+            Id = id;
+            StartDatum = startDatum;
+            EindDatum = eindDatum;
+            Dagen = dagen;
+            Huurder = huurder;
+        }
+
         [Key]
         [MaxLength(25)]
         public string Id { get; set; }
@@ -18,6 +31,7 @@ namespace ParkDataLayer.Model
         public DateTime EindDatum { get; set; }
         [Required]
         public int Dagen { get; set; }
-
+        public HuurderEF Huurder { get; set; }
+        //public HuisEF Huis { get; set; }
     }
 }
