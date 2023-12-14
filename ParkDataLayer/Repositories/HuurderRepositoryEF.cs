@@ -1,40 +1,114 @@
 ﻿using ParkBusinessLayer.Interfaces;
 using ParkBusinessLayer.Model;
+using ParkDataLayer.Exceptions;
+using ParkDataLayer.Mappers;
+using ParkDataLayer.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ParkDataLayer.Repositories
 {
     public class HuurderRepositoryEF : IHuurderRepository
     {
+        private string connectionString;
+        private ParkBeheerContext ctx;
+
+        public HuurderRepositoryEF(string connectionString)
+        {
+            this.connectionString = connectionString;
+            this.ctx = new ParkBeheerContext(connectionString);
+        }
+
         public Huurder GeefHuurder(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return MapHuurder.MapToDomain(
+                    ctx.Huurder.Where(x => x.Id == id)
+                    .FirstOrDefault()
+                    );
+            } 
+            catch (Exception ex)
+            {
+                throw new RepositoryException("GeefHuurder");
+            }
         }
 
         public List<Huurder> GeefHuurders(string naam)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return ctx.Huurder
+                 .Where(x => x.Naam == naam)
+                 .Select(MapHuurder.MapToDomain)
+                 .ToList();
+            } 
+            catch (Exception ex)
+            {
+                throw new RepositoryException("GeefHuurders");
+            }
         }
 
         public bool HeeftHuurder(string naam, Contactgegevens contact)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return ctx.Huurder.Any(x => x.Naam == naam && x.Telefoon == contact.Tel && x.Email == contact.Email && x.Adres == contact.Adres);
+            } 
+            catch (Exception ex)
+            {
+                throw new RepositoryException("HeeftHuurder");
+            }
         }
 
         public bool HeeftHuurder(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return ctx.Huurder.Any(x => x.Id == id);
+            } 
+            catch (Exception ex)
+            {
+                throw new RepositoryException("HeeftHuurder");
+            }
         }
 
         public void UpdateHuurder(Huurder huurder)
         {
-            throw new NotImplementedException();
+            try
+            {
+                HuurderEF huurderUpdate = ctx.Huurder.Single(x => x.Id == huurder.Id);
+                
+                if (huurderUpdate != null)
+                {
+                    huurderUpdate.Adres = huurder.Contactgegevens.Adres;
+                    huurderUpdate.Email = huurder.Contactgegevens.Email;
+                    huurderUpdate.Telefoon = huurder.Contactgegevens.Tel;
+                    huurderUpdate.Naam = huurder.Naam;
+                    ctx.SaveChanges();
+                }
+            } 
+            catch (Exception ex)
+            {
+                throw new RepositoryException("UpdateHuurder");
+            }
         }
 
         public Huurder VoegHuurderToe(Huurder h)
         {
-            throw new NotImplementedException();
+            try
+            {
+                HuurderEF hEF = MapHuurder.MapFromDomain(h);
+                ctx.Huurder.Add(hEF);
+                ctx.SaveChanges();
+                h.ZetId(hEF.Id);
+                return h;
+            } 
+            catch (Exception ex)
+            {
+                throw new RepositoryException("VoegHuurderToe");
+            }
         }
     }
 }

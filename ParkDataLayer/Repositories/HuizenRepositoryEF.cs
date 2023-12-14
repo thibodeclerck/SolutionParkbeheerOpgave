@@ -1,7 +1,11 @@
-﻿using ParkBusinessLayer.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using ParkBusinessLayer.Interfaces;
 using ParkBusinessLayer.Model;
+using ParkDataLayer.Exceptions;
+using ParkDataLayer.Mappers;
 using ParkDataLayer.Model;
 using System;
+using System.Linq;
 
 namespace ParkDataLayer.Repositories
 {
@@ -18,27 +22,77 @@ namespace ParkDataLayer.Repositories
 
         public Huis GeefHuis(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                HuisEF huisEF = ctx.Huis.Where(x => x.Id == id)
+                    .Include(x => x.Park)
+                    .FirstOrDefault();
+                return MapHuis.MapToDomain(huisEF);               
+            } 
+            catch (Exception ex)
+            {
+                throw new RepositoryException("VogeHuisToe");
+            }
         }
 
         public bool HeeftHuis(string straat, int nummer, Park park)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return ctx.Huis.Any(huis => huis.Straat == straat && huis.Nr == nummer && huis.Park == MapPark.MapFromDomain(park));               
+            } 
+            catch (Exception ex)
+            {
+                throw new RepositoryException("VogeHuisToe");
+            }
         }
 
         public bool HeeftHuis(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return ctx.Huis.Any(huis => huis.Id == id);                
+            } 
+            catch (Exception ex)
+            {
+                throw new RepositoryException("VogeHuisToe");
+            }
         }
 
         public void UpdateHuis(Huis huis)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var huisUpdate = ctx.Huis.Single(x => x.Id == huis.Id);
+
+                if(huisUpdate != null)
+                {
+                    huisUpdate.Nr = huis.Nr;
+                    huisUpdate.Straat = huis.Straat;
+                    huisUpdate.Actief = huis.Actief;
+                    ctx.SaveChanges();
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new RepositoryException("UpdateHuis");
+            }
         }
 
         public Huis VoegHuisToe(Huis h)
         {
-            throw new NotImplementedException();
+            try
+            {
+                HuisEF huisEF = MapHuis.MapFromDomain(h);
+                ctx.Huis.Add(huisEF);
+                ctx.SaveChanges();
+                h.ZetId(huisEF.Id);
+                return h;
+            }
+            catch(Exception ex)
+            {
+                throw new RepositoryException("VogeHuisToe");
+            }
         }
     }
 }

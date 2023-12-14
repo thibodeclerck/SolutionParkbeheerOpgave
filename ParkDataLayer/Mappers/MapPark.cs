@@ -1,4 +1,5 @@
 ﻿using ParkBusinessLayer.Model;
+using ParkDataLayer.Exceptions;
 using ParkDataLayer.Model;
 using System;
 using System.Collections.Generic;
@@ -12,17 +13,30 @@ namespace ParkDataLayer.Mappers
     {
         public static ParkEF MapFromDomain(Park p)
         {
-            //List<HuisEF> huizenEF = p.Huizen().Select(x => MapHuis.MapFromDomain(x)).ToList();
-
+            try
+            {
             ParkEF parkEF = new ParkEF(p.Id, p.Naam, p.Locatie);
 
             return parkEF;
+
+            } catch (Exception ex)
+            {
+                throw new MapperException("MapParkFromDomain");
+            }
+
         }
 
         public static Park MapToDomain(ParkEF ef)
         {
+            try
+            {
             Park p = new Park(ef.Id, ef.Naam, ef.Locatie);
             return p;
+
+            } catch (Exception ex)
+            {
+                throw new MapperException("MapParkToDomain");
+            }
         }
     }
 }

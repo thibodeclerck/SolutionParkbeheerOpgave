@@ -15,21 +15,21 @@ namespace ParkDataLayer.Model
         {
         }
 
-        public HuisEF(int id, string straat, int nr, bool actief, List<HuurcontractEF> huurcontracten)
+        public HuisEF(int id, string straat, int nr, bool actief, ParkEF park)
         {
             Id = id;
             Straat = straat;
             Nr = nr;
             Actief = actief;
-            Huurcontracten = huurcontracten;
+            Park = park;
         }
 
-        public HuisEF(string straat, int nr, bool actief, List<HuurcontractEF> huurcontracten)
+        public HuisEF(string straat, int nr, bool actief, ParkEF park)
         {
             Straat = straat;
             Nr = nr;
             Actief = actief;
-            Huurcontracten = huurcontracten;
+            Park = park;
         }
 
         public int Id { get; set; }
@@ -42,6 +42,6 @@ namespace ParkDataLayer.Model
         public bool Actief { get; set; }
         public ParkEF Park { get; set; }
 
-        public List<HuurcontractEF> Huurcontracten { get; set; }
+        //public List<HuurcontractEF> Huurcontracten { get; set; }
     }
 }

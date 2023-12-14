@@ -28,15 +28,16 @@ namespace ParkDataLayer.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<HuisEF>()
-                .HasOne(x => x.Park)
-                .WithMany();
-            modelBuilder.Entity<HuisEF>()
-                .HasMany(x => x.Huurcontracten)
-                .WithOne();
+            //modelBuilder.Entity<HuisEF>()
+            //    .HasOne(x => x.Park)
+            //    .WithMany();
+            //modelBuilder.Entity<HuisEF>()
+            //    .HasMany(x => x.Huurcontracten)
+            //    .WithOne();
             //modelBuilder.Entity<HuurderEF>()
             //    .HasMany(x => x.Huurcontracten)
             //    .WithOne();
+            
         }
     }
 }
