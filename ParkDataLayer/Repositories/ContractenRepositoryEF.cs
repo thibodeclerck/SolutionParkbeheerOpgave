@@ -62,7 +62,7 @@ namespace ParkDataLayer.Repositories
         {
             try
             {
-            throw new NotImplementedException();
+                return ctx.Huurcontract.Any(x => x.StartDatum == startDatum && x.Huurder.Id == huurderid && x.Huis.Id == huisid);
 
             } catch (Exception ex)
             {
@@ -74,21 +74,30 @@ namespace ParkDataLayer.Repositories
         {
             try
             {
-            throw new NotImplementedException();
-
-            } catch (Exception ex)
+                return ctx.Huurcontract.Any(x => x.Id == id);
+            } 
+            catch (Exception ex)
             {
                 throw new RepositoryException("");
-              }
+            }
         }
 
         public void UpdateContract(Huurcontract contract)
         {
             try
             {
-            throw new NotImplementedException();
+                HuurcontractEF hcEF = ctx.Huurcontract.Find(contract.Id);
 
-            } catch (Exception ex)
+                if(hcEF != null)
+                {
+                    hcEF.StartDatum = contract.Huurperiode.StartDatum;
+                    hcEF.EindDatum = contract.Huurperiode.EindDatum;
+                    hcEF.Huurder = MapHuurder.MapFromDomain(contract.Huurder);
+                    hcEF.Huis = MapHuis.MapFromDomain(contract.Huis);
+                    ctx.SaveChanges();
+                }
+            } 
+            catch (Exception ex)
             {
                 throw new RepositoryException("");
               }
