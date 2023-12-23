@@ -52,7 +52,20 @@ namespace ParkDataLayer.Repositories
             {
             if (dtEinde == null)
                 {
-
+                    return ctx.Huurcontract.Where(x => x.StartDatum >= dtBegin)
+                        .Include(x => x.Huurder)
+                        .Include(x => x.Huis)
+                        .ThenInclude(x => x.Park)
+                        .Select(x => MapHuurcontract.MapToDomain(x))
+                        .ToList();
+                }else
+                {
+                    return ctx.Huurcontract.Where(x => x.StartDatum >= dtBegin && x.EindDatum <= dtEinde)
+                        .Include(x => x.Huurder)
+                        .Include(x => x.Huis)
+                        .ThenInclude(x => x.Park)
+                        .Select(x => MapHuurcontract.MapToDomain(x))
+                        .ToList();
                 }
 
             } catch (Exception ex)
