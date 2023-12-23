@@ -50,7 +50,10 @@ namespace ParkDataLayer.Repositories
         {
             try
             {
-            throw new NotImplementedException();
+            if (dtEinde == null)
+                {
+
+                }
 
             } catch (Exception ex)
             {
