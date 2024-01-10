@@ -19,7 +19,7 @@ namespace ParkBusinessLayer.Model
         public Huis Huis { get; private set; }
         public void ZetId(string id)
         {
-            if (string.IsNullOrWhiteSpace(id)) throw new ParkException("Park zetid");
+            if (string.IsNullOrWhiteSpace(id)) throw new ParkException("Contract zetid - Id moet ingevuld zijn");
             Id = id;
         }
         public void ZetHuis(Huis huis)

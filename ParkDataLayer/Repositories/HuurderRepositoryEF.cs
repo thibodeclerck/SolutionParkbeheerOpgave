@@ -24,14 +24,19 @@ namespace ParkDataLayer.Repositories
         {
             try
             {
-                return MapHuurder.MapToDomain(
+                HuurderEF huurder = 
                     ctx.Huurder.Where(x => x.Id == id)
                     .FirstOrDefault()
-                    );
+                    ;
+                if (huurder != null)
+                {
+                    return MapHuurder.MapToDomain(huurder);
+                } 
+                else throw new RepositoryException("Huurder bestaat niet");
             } 
             catch (Exception ex)
             {
-                throw new RepositoryException("GeefHuurder");
+                throw new RepositoryException(ex.Message);
             }
         }
 

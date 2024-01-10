@@ -50,6 +50,7 @@ namespace ParkDataLayer.Repositories
         {
             try
             {
+
             if (dtEinde == null)
                 {
                     return ctx.Huurcontract.Where(x => x.StartDatum >= dtBegin)
@@ -102,14 +103,31 @@ namespace ParkDataLayer.Repositories
         {
             try
             {
-                HuurcontractEF hcEF = ctx.Huurcontract.Find(contract.Id);
+                HuurcontractEF hcEF = ctx.Huurcontract.Single(x => x.Id == contract.Id);
+                HuisEF huis = null;
+                if (hcEF.Huis.Id != contract.Huis.Id)
+                {
+                    huis = ctx.Huis.Single(x => x.Id == contract.Huis.Id);
+                }
+                HuurderEF huurder = null;
+                if (hcEF.Huurder.Id != contract.Huurder.Id)
+                {
+                    huurder = ctx.Huurder.Single(x => x.Id != contract.Huurder.Id);
+                }
 
                 if(hcEF != null)
                 {
+                    hcEF.Dagen = contract.Huurperiode.Aantaldagen;
                     hcEF.StartDatum = contract.Huurperiode.StartDatum;
                     hcEF.EindDatum = contract.Huurperiode.EindDatum;
-                    hcEF.Huurder = MapHuurder.MapFromDomain(contract.Huurder);
-                    hcEF.Huis = MapHuis.MapFromDomain(contract.Huis);
+                    if (huurder != null)
+                    {
+                        hcEF.Huurder = huurder;
+                    }
+                    if(huis != null)
+                    {
+                        hcEF.Huis = huis;
+                    }
                     ctx.SaveChanges();
                 }
             } 
@@ -123,6 +141,10 @@ namespace ParkDataLayer.Repositories
         {
             try
             {
+                if (contract.Huurperiode.StartDatum < DateTime.Now)
+                {
+                    throw new RepositoryException("startDatum is in het verleden");
+                }
 
             HuurcontractEF hcEF = MapHuurcontract.MapFromDomain(contract);
 
@@ -140,7 +162,7 @@ namespace ParkDataLayer.Repositories
             }
             if(!string.IsNullOrWhiteSpace(contract.Huis.Park.Id))
             {
-                ParkEF park = ctx.Park.Find(hcEF.Huis.Park.Id);
+                ParkEF park = ctx.Park.Find(contract.Huis.Park.Id);
                 ctx.Attach(park);
                 hcEF.Huis.Park = park;
             }
@@ -149,7 +171,7 @@ namespace ParkDataLayer.Repositories
             ctx.SaveChanges();
             } catch (Exception ex)
             {
-                throw new RepositoryException("");
+                throw new RepositoryException(ex.Message);
               }
         }
     }

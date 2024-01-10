@@ -51,7 +51,7 @@ namespace ParkBusinessLayer.Beheerders
             }
             catch (Exception ex)
             {
-                throw new BeheerderException("geefhuurder", ex);
+                throw new BeheerderException(ex.Message);
             }
         }
         public List<Huurder> GeefHuurders(string naam)

@@ -27,11 +27,15 @@ namespace ParkDataLayer.Repositories
                 HuisEF huisEF = ctx.Huis.Where(x => x.Id == id)
                     .Include(x => x.Park)
                     .FirstOrDefault();
-                return MapHuis.MapToDomain(huisEF);               
+                if (huisEF == null)
+                {
+                    throw new RepositoryException("Huis bestaat niet");
+                }
+                else return MapHuis.MapToDomain(huisEF);               
             } 
             catch (Exception ex)
             {
-                throw new RepositoryException("VogeHuisToe");
+                throw new RepositoryException(ex.Message);
             }
         }
 
@@ -83,7 +87,13 @@ namespace ParkDataLayer.Repositories
         {
             try
             {
+                ParkEF parkEF = ctx.Park.FirstOrDefault(x => x.Id == h.Park.Id);
+
                 HuisEF huisEF = MapHuis.MapFromDomain(h);
+                if (parkEF != null)
+                {
+                    huisEF.Park = parkEF;
+                }
                 ctx.Huis.Add(huisEF);
                 ctx.SaveChanges();
                 h.ZetId(huisEF.Id);
@@ -91,7 +101,7 @@ namespace ParkDataLayer.Repositories
             }
             catch(Exception ex)
             {
-                throw new RepositoryException("VogeHuisToe");
+                throw new RepositoryException(ex.Message);
             }
         }
     }

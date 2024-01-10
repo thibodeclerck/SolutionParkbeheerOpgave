@@ -29,7 +29,7 @@ namespace ParkBusinessLayer.Beheerders
             }
             catch (Exception ex)
             {
-                throw new BeheerderException("", ex);
+                throw new BeheerderException(ex.Message);
             }
         }
         public void UpdateHuis(Huis huis)

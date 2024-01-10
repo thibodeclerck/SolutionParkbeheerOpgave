@@ -26,7 +26,7 @@ namespace ParkBusinessLayer.Beheerders
             }
             catch (Exception ex)
             {
-                throw new BeheerderException("", ex);
+                throw new BeheerderException(ex.Message);
             }
         }
         public void AnnuleerContract(Huurcontract contract )
