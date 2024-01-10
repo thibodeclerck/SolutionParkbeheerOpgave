@@ -89,6 +89,7 @@ namespace ParkDataLayer.Repositories
             {
                 ParkEF parkEF = ctx.Park.FirstOrDefault(x => x.Id == h.Park.Id);
 
+                if (HeeftHuis(h.Straat, h.Nr, h.Park)) throw new RepositoryException("Huis bestaat al");
                 HuisEF huisEF = MapHuis.MapFromDomain(h);
                 if (parkEF != null)
                 {

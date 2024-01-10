@@ -5,7 +5,7 @@ using ParkDataLayer.Model;
 using ParkDataLayer.Repositories;
 using System.Diagnostics.Contracts;
 
-string connectionString = "Data Source=PC_Thibo\\SQLEXPRESS;Initial Catalog=ParkBeheer;Integrated Security=True;Trust Server Certificate=True";
+string connectionString = "Data Source=LAPTOP-FTPF1N3K\\SQLEXPRESS;Initial Catalog=ParkBeheer;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
 ParkBeheerContext ctx = new ParkBeheerContext(connectionString);
 //ctx.Database.EnsureDeleted();
 //ctx.Database.EnsureCreated();
@@ -31,12 +31,25 @@ Park park3 = new Park("park 3", "park 3", "parkdennen");
 while (beheerderKeuze != 4)
 {
     Console.WriteLine("1 voor huizen, 2 voor huurder, 3 voor contracten, 4 voor stop");
-    beheerderKeuze = int.Parse(Console.ReadLine());
+    try
+    {
+        beheerderKeuze = int.Parse(Console.ReadLine());
+    }catch(Exception ex)
+    {
+        Console.WriteLine("Ongeldige input");
+    }
     //huizenBeheerder
     if (beheerderKeuze == 1)
     {
+        try
+        {
         Console.WriteLine("1 voor voegHuisToe, 2 voor updateHuis, 3 voor archiveerHuis, 4 voor terug");
         huizenKeuze = int.Parse(Console.ReadLine());
+            
+        } catch (Exception ex)
+        {
+            Console.WriteLine("Ongeldige input");
+        }
         //VoegHuisToe
         if (huizenKeuze == 1)
         {
@@ -64,7 +77,7 @@ while (beheerderKeuze != 4)
                 Console.WriteLine("Huis toegevoegd");
             } catch (BeheerderException ex)
             {
-                Console.WriteLine(ex.ToString());
+                Console.WriteLine(ex.Message);
             }
             catch (Exception ex)
             {
@@ -102,7 +115,7 @@ while (beheerderKeuze != 4)
                 Console.WriteLine("huis gearchiveerd");
             } catch (BeheerderException ex)
             {
-                Console.WriteLine(ex.ToString());
+                Console.WriteLine(ex.Message);
             }
         }
         if (huizenKeuze == 4)
@@ -112,8 +125,15 @@ while (beheerderKeuze != 4)
     }
     if (beheerderKeuze == 2)
     {
+        try
+        {
         Console.WriteLine("1 voor voegHuurderToe, 2 voor updateHuurder, 3 voor geefHuurders, 4 voor terug");
         huurderKeuze = int.Parse(Console.ReadLine());
+            
+        } catch (Exception ex)
+        {
+            Console.WriteLine("Ongeldige input");
+        }
 
         if (huurderKeuze == 1)
         {
@@ -132,7 +152,7 @@ while (beheerderKeuze != 4)
             }
             catch (BeheerderException ex)
             {
-                Console.WriteLine(ex.ToString());
+                Console.WriteLine(ex.Message);
             }
         }
         if (huurderKeuze == 2)
@@ -159,7 +179,7 @@ while (beheerderKeuze != 4)
                 string tel = Console.ReadLine();
                 if (!string.IsNullOrWhiteSpace(tel))
                 {
-                    contactUpdate.Tel = tel;
+                    contactUpdate.ZetTel(tel);
                 }
                 Console.Write("Adres: ");
                 string adres = Console.ReadLine();
@@ -172,7 +192,7 @@ while (beheerderKeuze != 4)
                 Console.WriteLine($"{huurderUpdate.Naam} Geupdate");
             } catch (BeheerderException ex)
             {
-                Console.WriteLine(ex.ToString());
+                Console.WriteLine(ex.Message);
             }
         }
         if (huurderKeuze == 3)
@@ -188,11 +208,11 @@ while (beheerderKeuze != 4)
                 }
                 foreach (Huurder h in huurders)
                 {
-                    Console.WriteLine($"{h.Naam}");
+                    Console.WriteLine($"Id: {h.Id} | Naam: {h.Naam}");
                 }
             } catch (BeheerderException ex)
             {
-                Console.WriteLine(ex.ToString());
+                Console.WriteLine(ex.Message);
             }
         }
         if (huurderKeuze == 4)
@@ -202,8 +222,16 @@ while (beheerderKeuze != 4)
     }
     if (beheerderKeuze == 3)
     {
+
+        try
+        {
         Console.WriteLine("1 voor maakContract, 2 voor updateContract, 3 voor verwijderContract, 4 geefContracten, 5 voor terug");
         contractKeuze = int.Parse(Console.ReadLine());
+
+        } catch (Exception ex)
+        {
+            Console.WriteLine("Ongeldige input");
+        }
 
         if (contractKeuze == 1)
         {

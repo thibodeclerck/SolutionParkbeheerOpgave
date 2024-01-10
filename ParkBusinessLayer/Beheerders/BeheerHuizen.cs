@@ -22,7 +22,7 @@ namespace ParkBusinessLayer.Beheerders
         {
             try
             {
-                if (repo.HeeftHuis(straat, nummer, park)) throw new BeheerderException("voeghuistoe");
+                if (repo.HeeftHuis(straat, nummer, park)) throw new BeheerderException("BeheerHuizen - Huis bestaal al");
                 Huis h = new Huis(straat,nummer, park);
                 repo.VoegHuisToe(h);
 
