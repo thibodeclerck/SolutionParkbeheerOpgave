@@ -44,10 +44,18 @@ namespace ParkDataLayer.Repositories
         {
             try
             {
-                return ctx.Huurder
-                 .Where(x => x.Naam == naam)
-                 .Select(MapHuurder.MapToDomain)
-                 .ToList();
+                if (!string.IsNullOrWhiteSpace(naam))
+                {
+                    return ctx.Huurder
+                     .Where(x => x.Naam == naam)
+                     .Select(MapHuurder.MapToDomain)
+                     .ToList();
+                }else
+                {
+                    return ctx.Huurder
+                     .Select(MapHuurder.MapToDomain)
+                     .ToList();
+                }
             } 
             catch (Exception ex)
             {
