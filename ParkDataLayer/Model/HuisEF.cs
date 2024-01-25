@@ -32,6 +32,11 @@ namespace ParkDataLayer.Model
             Park = park;
         }
 
+        public HuisEF(int id, string straat, int nr, bool actief, ParkEF park, List<HuurcontractEF> huurcontracten) : this(id, straat, nr, actief, park)
+        {
+            Huurcontracten = huurcontracten;
+        }
+
         public int Id { get; set; }
         [MaxLength(250)]
         public string Straat { get; set; }
@@ -42,6 +47,6 @@ namespace ParkDataLayer.Model
         public bool Actief { get; set; }
         public ParkEF Park { get; set; }
 
-        //public List<HuurcontractEF> Huurcontracten { get; set; }
+        public List<HuurcontractEF> Huurcontracten { get; set; }
     }
 }

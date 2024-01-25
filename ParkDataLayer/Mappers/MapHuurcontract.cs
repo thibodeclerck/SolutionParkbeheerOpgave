@@ -28,7 +28,7 @@ namespace ParkDataLayer.Mappers
         {
             try
             {
-            Huurcontract hc = new Huurcontract(huurcontractEF.Id, new Huurperiode(huurcontractEF.StartDatum, huurcontractEF.Dagen), MapHuurder.MapToDomain(huurcontractEF.Huurder), MapHuis.MapToDomain(huurcontractEF.Huis));
+            Huurcontract hc = new Huurcontract(huurcontractEF.Id, new Huurperiode(huurcontractEF.StartDatum, huurcontractEF.Dagen), MapHuurder.MapToDomain(huurcontractEF.Huurder), MapHuis.MapToDomainWithoutContract(huurcontractEF.Huis));
             return hc;
 
             } catch (Exception ex)

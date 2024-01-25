@@ -1,5 +1,6 @@
 ﻿using ParkBusinessLayer.Exceptions;
 using System.Collections.Generic;
+using System.Dynamic;
 
 namespace ParkBusinessLayer.Model
 {
@@ -8,7 +9,7 @@ namespace ParkBusinessLayer.Model
         public string Id { get; private set; }
         public string Naam { get; private set; }
         public string Locatie { get; private set; }
-        private List<Huis> _huis =new List<Huis>(){ };
+        public List<Huis> _huis { get; set; } = new List<Huis>();
 
         public Park(string id, string naam, string locatie, List<Huis> huis) : this(id,naam,locatie)
         {

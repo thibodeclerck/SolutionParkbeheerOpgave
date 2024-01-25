@@ -20,13 +20,13 @@ namespace ParkDataLayer.Model
             Locatie = locatie;
         }
 
-        //public ParkEF(string id, string naam, string locatie, List<HuisEF> huizen)
-        //{
-        //    Id = id;
-        //    Naam = naam;
-        //    Locatie = locatie;
-        //    Huizen = huizen;
-        //}
+        public ParkEF(string id, string naam, string locatie, List<HuisEF> huizen)
+        {
+            Id = id;
+            Naam = naam;
+            Locatie = locatie;
+            Huizen = huizen;
+        }
 
         [Key]
         [MaxLength(20)]
@@ -36,6 +36,6 @@ namespace ParkDataLayer.Model
         public string Naam { get; set; }
         [MaxLength(500)]
         public string Locatie { get; set; }
-        //public List<HuisEF> Huizen { get; set; }
+        public List<HuisEF> Huizen { get; set; }
     }
 }

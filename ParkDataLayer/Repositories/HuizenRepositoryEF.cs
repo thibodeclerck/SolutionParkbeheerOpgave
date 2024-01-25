@@ -26,6 +26,11 @@ namespace ParkDataLayer.Repositories
             {
                 HuisEF huisEF = ctx.Huis.Where(x => x.Id == id)
                     .Include(x => x.Park)
+                    .ThenInclude(x => x.Huizen)
+                    .Include(x =>x.Huurcontracten)
+                    .ThenInclude(x => x.Huurder)
+                    .Include(x => x.Huurcontracten)
+                    .ThenInclude(x => x.Huis)
                     .FirstOrDefault();
                 if (huisEF == null)
                 {

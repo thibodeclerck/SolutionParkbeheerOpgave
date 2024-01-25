@@ -30,7 +30,7 @@ namespace ParkDataLayer.Mappers
         {
             try
             {
-            Park p = new Park(ef.Id, ef.Naam, ef.Locatie);
+            Park p = new Park(ef.Id, ef.Naam, ef.Locatie, ef.Huizen.Select(x => MapHuis.MapToDomainWithoutPark(x)).ToList());
             return p;
 
             } catch (Exception ex)

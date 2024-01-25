@@ -27,8 +27,34 @@ namespace ParkDataLayer.Mappers
         {
             try
             {
-            Huis huis = new Huis(huisEF.Id,huisEF.Straat, huisEF.Nr, huisEF.Actief, MapPark.MapToDomain(huisEF.Park));
+            Huis huis = new Huis(huisEF.Id,huisEF.Straat, huisEF.Nr, huisEF.Actief, MapPark.MapToDomain(huisEF.Park), huisEF.Huurcontracten.Select(x => MapHuurcontract.MapToDomain(x)).ToList());
             return huis;
+
+            } catch (Exception ex)
+            {
+                throw new MapperException("MapHuisToDomain");
+            }
+        }
+
+        public static Huis MapToDomainWithoutPark(HuisEF huisEF)
+        {
+            try
+            {
+                Huis huis = new Huis(huisEF.Id, huisEF.Straat, huisEF.Nr, huisEF.Actief);
+                return huis;
+
+            } catch (Exception ex)
+            {
+                throw new MapperException("MapHuisToDomain");
+            }
+        }
+
+        public static Huis MapToDomainWithoutContract(HuisEF huisEF)
+        {
+            try
+            {
+                Huis huis = new Huis(huisEF.Id, huisEF.Straat, huisEF.Nr, huisEF.Actief, MapPark.MapToDomain(huisEF.Park));
+                return huis;
 
             } catch (Exception ex)
             {
